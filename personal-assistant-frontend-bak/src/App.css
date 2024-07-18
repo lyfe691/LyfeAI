@@ -1,0 +1,21 @@
+/* Add some basic styling */
+form {
+    margin: 20px;
+}
+
+label {
+    margin-right: 10px;
+}
+
+input {
+    margin-bottom: 10px;
+}
+
+button {
+    margin-top: 10px;
+}
+
+p {
+    color: red;
+}
+
