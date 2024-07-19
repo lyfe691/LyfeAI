@@ -1,6 +1,5 @@
-// src/components/Register.js
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, Box } from '@mui/material';
+import { TextField, Button, Container, Typography, Box, Alert } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,12 +7,13 @@ const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (password !== confirmPassword) {
-      alert('Passwords do not match!');
+      setError('Passwords do not match!');
       return;
     }
     try {
@@ -23,7 +23,11 @@ const Register = () => {
       });
       navigate('/login');
     } catch (error) {
-      console.error('Error registering:', error);
+      if (error.response && error.response.data && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError('Registration failed. Please try again.');
+      }
     }
   };
 
@@ -40,6 +44,11 @@ const Register = () => {
         <Typography component="h1" variant="h5">
           Register
         </Typography>
+        {error && (
+          <Alert severity="error" sx={{ mt: 2, mb: 2, width: '100%' }}>
+            {error}
+          </Alert>
+        )}
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <TextField
             variant="outlined"
