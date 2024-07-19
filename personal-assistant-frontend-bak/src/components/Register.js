@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, Box, Alert } from '@mui/material';
+import { TextField, Button, Container, Typography, Box, Alert, Link } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -88,6 +88,9 @@ const Register = () => {
           >
             Register
           </Button>
+          <Link href="/login" variant="body2" sx={{ display: 'block', textAlign: 'center' }}>
+            Already have an account? Login here!
+          </Link>
         </Box>
       </Box>
     </Container>
