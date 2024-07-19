@@ -39,10 +39,10 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody User user) {
         User existingUser = userService.findByUsername(user.getUsername());
         if (existingUser == null || !passwordEncoder.matches(user.getPassword(), existingUser.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Invalid username or password"));
         }
         String token = jwtUtil.generateToken(user.getUsername());
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(Map.of("token", token));
     }
 
     @GetMapping("/users")

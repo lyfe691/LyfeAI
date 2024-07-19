@@ -1,25 +1,29 @@
-// src/components/Login.js
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, Box } from '@mui/material';
+import { TextField, Button, Container, Typography, Box, Alert } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const result = await axios.post('http://localhost:8080/auth/login', {
+      const response = await axios.post('http://localhost:8080/auth/login', {
         username,
         password,
       });
-      localStorage.setItem('token', result.data);
+      localStorage.setItem('token', response.data.token);
       navigate('/chat');
     } catch (error) {
-      console.error('Error logging in:', error);
+      if (error.response && error.response.data && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError('Login failed. Please try again.');
+      }
     }
   };
 
@@ -36,6 +40,11 @@ const Login = () => {
         <Typography component="h1" variant="h5">
           Login
         </Typography>
+        {error && (
+          <Alert severity="error" sx={{ mt: 2, mb: 2, width: '100%' }}>
+            {error}
+          </Alert>
+        )}
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <TextField
             variant="outlined"
@@ -65,12 +74,9 @@ const Login = () => {
           >
             Login
           </Button>
-          
         </Box>
-       
       </Box>
     </Container>
-    
   );
 };
 
