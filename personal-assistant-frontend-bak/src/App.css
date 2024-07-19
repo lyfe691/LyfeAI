@@ -1,21 +1,51 @@
-/* Add some basic styling */
-form {
-    margin: 20px;
+/* App.css */
+
+/* Add dark mode variables */
+:root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+  --button-background: #007bff;
+  --button-text: #ffffff;
 }
 
-label {
-    margin-right: 10px;
+.dark-mode {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --button-background: #1f1f1f;
+  --button-text: #ffffff;
 }
 
-input {
-    margin-bottom: 10px;
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
 }
 
 button {
-    margin-top: 10px;
+  background-color: var(--button-background);
+  color: var(--button-text);
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
 }
 
-p {
-    color: red;
+button:hover {
+  background-color: var(--dark-color);
+}
+.MuiContainer-root {
+  padding: 20px;
 }
 
+/* Responsive design with media queries */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  input, button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
