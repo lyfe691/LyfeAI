@@ -78,7 +78,7 @@ const Login = ({ setDarkMode }) => {
         </Box>
         <Box sx={{ mt: 2, textAlign: 'center' }}>
           <Typography variant="body2">
-            <Link href="/register">Don't have an account? Register here!</Link>
+           Don't have an account?  <Link href="/register">Register here!</Link>
           </Typography>
           <Typography variant="body2">
             <Link href="/forgot-password">Forgot your password?</Link>

@@ -1,3 +1,4 @@
+// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/Login';
@@ -5,9 +6,9 @@ import Register from './components/Register';
 import Chat from './components/Chat';
 import NavBar from './components/NavBar';
 import DarkModeToggle from './components/DarkModeToggle';
-import Settings from './components/Settings';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
+import Home from './components/Home'; // Import the new Home component
 import { Container, CssBaseline } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import './App.css';
@@ -40,10 +41,10 @@ const App = () => {
         <Container>
           <DarkModeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/chat" element={<Chat />} />
-            <Route path="/settings" element={<Settings />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
           </Routes>
