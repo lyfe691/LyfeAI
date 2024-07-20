@@ -1,14 +1,12 @@
+// src/components/NavBar.js
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
+import { Link } from 'react-router-dom';
 
-const Navbar = () => {
-  const navigate = useNavigate();
-  const token = localStorage.getItem('token');
-
+const NavBar = ({ isAuthenticated, setIsAuthenticated }) => {
   const handleLogout = () => {
     localStorage.removeItem('token');
-    navigate('/login');
+    setIsAuthenticated(false);
   };
 
   return (
@@ -17,29 +15,36 @@ const Navbar = () => {
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           Personal Assistant
         </Typography>
-        {!token && (
-          <>
-            <Button color="inherit" onClick={() => navigate('/register')}>
-              Register
-            </Button>
-            <Button color="inherit" onClick={() => navigate('/login')}>
-              Login
-            </Button>
-          </>
-        )}
-        {token && (
-          <>
-            <Button color="inherit" onClick={() => navigate('/chat')}>
-              Chat
-            </Button>
-            <Button color="inherit" onClick={handleLogout}>
-              Logout
-            </Button>
-          </>
-        )}
+        <Box>
+          <Button color="inherit" component={Link} to="/">
+            Home
+          </Button>
+          {isAuthenticated ? (
+            <>
+              <Button color="inherit" component={Link} to="/chat">
+                Chat
+              </Button>
+              <Button color="inherit" component={Link} to="/settings">
+                Settings
+              </Button>
+              <Button color="inherit" onClick={handleLogout}>
+                Logout
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button color="inherit" component={Link} to="/login">
+                Login
+              </Button>
+              <Button color="inherit" component={Link} to="/register">
+                Register
+              </Button>
+            </>
+          )}
+        </Box>
       </Toolbar>
     </AppBar>
   );
 };
 
-export default Navbar;
+export default NavBar;

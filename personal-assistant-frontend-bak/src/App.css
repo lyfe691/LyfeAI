@@ -37,6 +37,7 @@ button:hover {
   padding: 20px;
 }
 
+
 /* Responsive design with media queries */
 @media (max-width: 768px) {
   .container {

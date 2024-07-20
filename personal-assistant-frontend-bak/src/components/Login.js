@@ -1,9 +1,11 @@
+// src/components/Login.js
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, Box, Alert, Link } from '@mui/material';
+import { TextField, Button, Container, Typography, Box, Alert } from '@mui/material';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import './styles.css';
 
-const Login = ({ setDarkMode }) => {
+const Login = ({ setIsAuthenticated }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -18,6 +20,7 @@ const Login = ({ setDarkMode }) => {
       });
       const token = response.data;
       localStorage.setItem('token', token);
+      setIsAuthenticated(true);
       navigate('/chat');
     } catch (error) {
       if (error.response && error.response.data) {
@@ -75,14 +78,14 @@ const Login = ({ setDarkMode }) => {
           >
             Login
           </Button>
-        </Box>
-        <Box sx={{ mt: 2, textAlign: 'center' }}>
-          <Typography variant="body2">
-           Don't have an account?  <Link href="/register">Register here!</Link>
-          </Typography>
-          <Typography variant="body2">
-            <Link href="/forgot-password">Forgot your password?</Link>
-          </Typography>
+          <Box sx={{ mt: 2, textAlign: 'center' }}>
+            <Link to="/register" className="custom-auth-link">
+              Don't have an account? Register here!
+            </Link>
+            <Link to="/forgot-password" className="custom-auth-link">
+              Forgot your password?
+            </Link>
+          </Box>
         </Box>
       </Box>
     </Container>

@@ -1,0 +1,33 @@
+.custom-auth-link {
+  color: #3f51b5;
+  text-decoration: none;
+  margin: 10px 0;
+  display: inline-block;
+  transition: color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 4px;
+  position: relative;
+}
+
+.custom-auth-link:hover {
+  color: #1e40af;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.custom-auth-link:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.4);
+  background: rgba(63, 81, 181, 0.1);
+}
+
+.custom-auth-link:active {
+  color: #1e40af;
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.custom-auth-link:visited {
+  color: #3f51b5;
+}

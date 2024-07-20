@@ -1,24 +1,21 @@
+// src/components/Register.js
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, Box, Alert, Link } from '@mui/material';
+import { TextField, Button, Container, Typography, Box, Alert } from '@mui/material';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import './styles.css';
 
 const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (password !== confirmPassword) {
-      setError('Passwords do not match!');
-      return;
-    }
     try {
-      await axios.post('http://localhost:8080/auth/register', {
+      const response = await axios.post('http://localhost:8080/auth/register', {
         username,
         email,
         password,
@@ -67,6 +64,7 @@ const Register = () => {
             required
             fullWidth
             label="Email"
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -80,16 +78,6 @@ const Register = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            label="Confirm Password"
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
           <Button
             type="submit"
             fullWidth
@@ -99,10 +87,12 @@ const Register = () => {
           >
             Register
           </Button>
+          <Box sx={{ mt: 2, textAlign: 'center' }}>
+            <Link to="/login" className="custom-auth-link">
+              Already have an account? Login here!
+            </Link>
+          </Box>
         </Box>
-        <Typography variant="body2">
-          Already have an account? <Link href="/login">Login here!</Link>
-        </Typography>
       </Box>
     </Container>
   );
