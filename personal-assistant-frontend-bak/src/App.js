@@ -6,6 +6,8 @@ import Chat from './components/Chat';
 import NavBar from './components/NavBar';
 import DarkModeToggle from './components/DarkModeToggle';
 import Settings from './components/Settings';
+import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
 import { Container, CssBaseline } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import './App.css';
@@ -42,6 +44,8 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
           </Routes>
         </Container>
       </Router>

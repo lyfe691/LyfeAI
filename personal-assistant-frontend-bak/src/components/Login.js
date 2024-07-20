@@ -3,7 +3,7 @@ import { TextField, Button, Container, Typography, Box, Alert, Link } from '@mui
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const Login = ({ setDarkMode }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -16,11 +16,12 @@ const Login = () => {
         username,
         password,
       });
-      localStorage.setItem('token', response.data.token);
+      const token = response.data;
+      localStorage.setItem('token', token);
       navigate('/chat');
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.message) {
-        setError(error.response.data.message);
+      if (error.response && error.response.data) {
+        setError(error.response.data);
       } else {
         setError('Login failed. Please try again.');
       }
@@ -74,9 +75,14 @@ const Login = () => {
           >
             Login
           </Button>
-          <Link href="/register" variant="body2" sx={{ display: 'block', textAlign: 'center' }}>
-            Don't have an account? Register here!
-          </Link>
+        </Box>
+        <Box sx={{ mt: 2, textAlign: 'center' }}>
+          <Typography variant="body2">
+            <Link href="/register">Don't have an account? Register here!</Link>
+          </Typography>
+          <Typography variant="body2">
+            <Link href="/forgot-password">Forgot your password?</Link>
+          </Typography>
         </Box>
       </Box>
     </Container>

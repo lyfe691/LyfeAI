@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, Box, Alert, Link } from '@mui/material';
+import { TextField, Button, Container, Typography, Box, Alert } from '@mui/material';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-const Register = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
+const ResetPassword = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -17,19 +17,25 @@ const Register = () => {
       setError('Passwords do not match!');
       return;
     }
+
+    const params = new URLSearchParams(location.search);
+    const token = params.get('token');
+
     try {
-      await axios.post('http://localhost:8080/auth/register', {
-        username,
-        email,
+      const response = await axios.post('http://localhost:8080/auth/reset-password', {
+        token,
         password,
       });
-      navigate('/login');
-    } catch (error) {
-      if (error.response && error.response.data) {
-        setError(error.response.data);
-      } else {
-        setError('Registration failed. Please try again.');
+      if (response.status === 200) {
+        setSuccess(true);
+        setError('');
+        setTimeout(() => {
+          navigate('/login');
+        }, 3000);
       }
+    } catch (error) {
+      setError('Reset password failed. Please try again.');
+      setSuccess(false);
     }
   };
 
@@ -44,8 +50,13 @@ const Register = () => {
         }}
       >
         <Typography component="h1" variant="h5">
-          Register
+          Reset Password
         </Typography>
+        {success && (
+          <Alert severity="success" sx={{ mt: 2, mb: 2, width: '100%' }}>
+            Password reset successfully. Redirecting to login...
+          </Alert>
+        )}
         {error && (
           <Alert severity="error" sx={{ mt: 2, mb: 2, width: '100%' }}>
             {error}
@@ -57,25 +68,7 @@ const Register = () => {
             margin="normal"
             required
             fullWidth
-            label="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            label="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            label="Password"
+            label="New Password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -85,7 +78,7 @@ const Register = () => {
             margin="normal"
             required
             fullWidth
-            label="Confirm Password"
+            label="Confirm New Password"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -97,15 +90,12 @@ const Register = () => {
             color="primary"
             sx={{ mt: 3, mb: 2 }}
           >
-            Register
+            Reset Password
           </Button>
         </Box>
-        <Typography variant="body2">
-          Already have an account? <Link href="/login">Login here!</Link>
-        </Typography>
       </Box>
     </Container>
   );
 };
 
-export default Register;
+export default ResetPassword;

@@ -12,7 +12,11 @@ public class User {
     @Column(unique = true)
     private String username;
 
+    @Column(unique = true) // Ensure email is unique
+    private String email;
+
     private String password;
+
     private String role;
 
     // Getters and setters
@@ -27,4 +31,7 @@ public class User {
 
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 }
