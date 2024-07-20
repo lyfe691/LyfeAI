@@ -1,25 +1,30 @@
+// src/components/ForgotPassword.js
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, Box, Alert } from '@mui/material';
+import { TextField, Button, Container, Typography, Box, Alert, CircularProgress } from '@mui/material';
 import axios from 'axios';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
-  const [success, setSuccess] = useState(false);
+  const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    setLoading(true);
+    setMessage('');
+    setError('');
     try {
-      const response = await axios.post('http://localhost:8080/auth/forgot-password', { email });
-      if (response.status === 200) {
-        setSuccess(true);
-        setError('');
-      }
+      await axios.post('http://localhost:8080/auth/forgot-password', { email });
+      setMessage('Reset link sent to your email');
     } catch (error) {
-      setError('Something went wrong. Please try again.');
-      setSuccess(false);
+      if (error.response && error.response.data) {
+        setError(error.response.data);
+      } else {
+        setError('An error occurred. Please try again.');
+      }
     }
+    setLoading(false);
   };
 
   return (
@@ -35,9 +40,9 @@ const ForgotPassword = () => {
         <Typography component="h1" variant="h5">
           Forgot Password
         </Typography>
-        {success && (
+        {message && (
           <Alert severity="success" sx={{ mt: 2, mb: 2, width: '100%' }}>
-            Reset link sent to your email.
+            {message}
           </Alert>
         )}
         {error && (
@@ -52,7 +57,6 @@ const ForgotPassword = () => {
             required
             fullWidth
             label="Email Address"
-            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -62,8 +66,9 @@ const ForgotPassword = () => {
             variant="contained"
             color="primary"
             sx={{ mt: 3, mb: 2 }}
+            disabled={loading}
           >
-            Reset Password
+            {loading ? <CircularProgress size={24} /> : 'Reset Password'}
           </Button>
         </Box>
       </Box>
