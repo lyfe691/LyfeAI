@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -17,6 +19,8 @@ import java.util.Map;
 @RequestMapping("/auth")
 @CrossOrigin(origins = "http://localhost:3000")
 public class AuthController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
     private UserService userService;
@@ -73,7 +77,7 @@ public class AuthController {
         emailService.sendSimpleMessage(email, "Password Reset Request", "To reset your password, click the link below:\n" + resetLink);
         return ResponseEntity.ok("Reset link sent to your email");
     }
-    
+
     @PostMapping("/reset-password")
     public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> resetRequest) {
         String token = resetRequest.get("token");
@@ -92,5 +96,59 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(newPassword));
         userService.save(user);
         return ResponseEntity.ok("Password reset successfully");
+    }
+
+    @PutMapping("/update-profile")
+    public ResponseEntity<?> updateProfile(@RequestBody Map<String, String> profileMap, @RequestHeader("Authorization") String token) {
+        logger.info("Received profile update request with token: {}", token);
+        logger.info("Profile data: {}", profileMap);
+
+        String username = profileMap.get("username");
+        String email = profileMap.get("email");
+        String currentUsername = jwtUtil.extractUsername(token.substring(7));
+
+        logger.info("Extracted username from token: {}", currentUsername);
+
+        User user = userService.findByUsername(currentUsername);
+        if (user == null) {
+            logger.error("User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
+        user.setUsername(username);
+        user.setEmail(email);
+        userService.save(user);
+
+        logger.info("Profile updated successfully for user: {}", currentUsername);
+        return ResponseEntity.ok("Profile updated successfully");
+    }
+
+    @PutMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody Map<String, String> passwordMap, @RequestHeader("Authorization") String token) {
+        logger.info("Received change password request with token: {}", token);
+        logger.info("Password data: {}", passwordMap);
+
+        String currentPassword = passwordMap.get("currentPassword");
+        String newPassword = passwordMap.get("newPassword");
+        String username = jwtUtil.extractUsername(token.substring(7));
+
+        logger.info("Extracted username from token: {}", username);
+
+        User user = userService.findByUsername(username);
+        if (user == null) {
+            logger.error("User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
+        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+            logger.error("Invalid current password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid current password");
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userService.save(user);
+
+        logger.info("Password changed successfully for user: {}", username);
+        return ResponseEntity.ok("Password changed successfully");
     }
 }

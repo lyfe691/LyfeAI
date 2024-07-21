@@ -54,6 +54,8 @@ public class UserService implements UserDetailsService {
     public void save(User user) {
         userRepository.save(user);
     }
+   
+
 
     public void sendPasswordResetEmail(User user, String token) {
         SimpleMailMessage message = new SimpleMailMessage();

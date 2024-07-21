@@ -56,7 +56,7 @@ const App = () => {
             />
             <Route
               path="/settings"
-              element={isAuthenticated ? <Settings /> : <Navigate to="/login" />}
+              element={isAuthenticated ? <Settings setIsAuthenticated={setIsAuthenticated} /> : <Navigate to="/login" />}
             />
           </Routes>
         </Container>

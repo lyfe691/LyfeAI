@@ -27,9 +27,7 @@ const NavBar = ({ isAuthenticated, setIsAuthenticated }) => {
               <Button color="inherit" component={Link} to="/settings">
                 Settings
               </Button>
-              <Button color="inherit" onClick={handleLogout}>
-                Logout
-              </Button>
+           
             </>
           ) : (
             <>
