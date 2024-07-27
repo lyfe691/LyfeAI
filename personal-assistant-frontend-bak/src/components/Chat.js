@@ -1,3 +1,4 @@
+// src/components/Chat.js
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import {
@@ -5,7 +6,6 @@ import {
   Box,
   Typography,
   TextField,
-  Button,
   Paper,
   List,
   ListItem,
@@ -14,9 +14,11 @@ import {
   createTheme,
   Alert,
   useTheme,
+  IconButton,
 } from '@mui/material';
 import { styled, keyframes } from '@mui/system';
 import SendIcon from '@mui/icons-material/Send';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import { CSSTransition } from 'react-transition-group';
 import './Chat.css';
 
@@ -92,6 +94,17 @@ const InputContainer = styled(Box)(({ theme }) => ({
   backdropFilter: 'blur(5px)',
 }));
 
+const RoundIconButton = styled(IconButton)(({ theme }) => ({
+  borderRadius: '50%',
+  width: '48px',
+  height: '48px',
+  backgroundColor: theme.palette.primary.main,
+  color: 'white',
+  '&:hover': {
+    backgroundColor: theme.palette.primary.dark,
+  },
+}));
+
 function Chat() {
   const [message, setMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
@@ -145,16 +158,30 @@ function Chat() {
         </Typography>
         <ChatContainer theme={theme}>
           <ChatList theme={theme}>
-            {chatHistory.map((chat, index) => (
-              <React.Fragment key={index}>
-                <ListItem sx={{ justifyContent: 'flex-end' }}>
-                  <MessageBubble primary={chat.user} align="right" theme={theme} />
-                </ListItem>
-                <ListItem>
-                  <MessageBubble primary={chat.bot} align="left" theme={theme} />
-                </ListItem>
-              </React.Fragment>
-            ))}
+            {chatHistory.length === 0 ? (
+              <Typography
+                variant="h6"
+                sx={{
+                  textAlign: 'center',
+                  color: theme.palette.text.secondary,
+                  marginTop: 'auto',
+                  marginBottom: 'auto',
+                }}
+              >
+                Chat here
+              </Typography>
+            ) : (
+              chatHistory.map((chat, index) => (
+                <React.Fragment key={index}>
+                  <ListItem sx={{ justifyContent: 'flex-end' }}>
+                    <MessageBubble primary={chat.user} align="right" theme={theme} />
+                  </ListItem>
+                  <ListItem>
+                    <MessageBubble primary={chat.bot} align="left" theme={theme} />
+                  </ListItem>
+                </React.Fragment>
+              ))
+            )}
             <div ref={chatEndRef} />
           </ChatList>
           <CSSTransition
@@ -163,8 +190,8 @@ function Chat() {
             classNames="fade"
             unmountOnExit
           >
-            <Box sx={{ mb: 2 }}>
-              <Alert severity="error">{error}</Alert>
+            <Box sx={{ mb: 2, width: 'fit-content', mx: 'auto' }}>
+              <Alert severity="error" sx={{ fontSize: '0.875rem' }}>{error}</Alert>
             </Box>
           </CSSTransition>
           <InputContainer component="form" onSubmit={handleSubmit} theme={theme}>
@@ -176,9 +203,9 @@ function Chat() {
               onChange={(e) => setMessage(e.target.value)}
               sx={{ mr: 1 }}
             />
-            <Button type="submit" variant="contained" color="primary" endIcon={<SendIcon />}>
-              Send
-            </Button>
+            <RoundIconButton type="submit" color="primary">
+              <ArrowUpwardIcon />
+            </RoundIconButton>
           </InputContainer>
         </ChatContainer>
       </Container>
