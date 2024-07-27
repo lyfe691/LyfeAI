@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import './styles.css';
 
-const Register = () => {
+const Register = ({ setIsAuthenticated }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
