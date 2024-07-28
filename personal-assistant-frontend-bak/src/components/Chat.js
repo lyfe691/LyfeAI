@@ -154,7 +154,7 @@ function Chat() {
           gutterBottom
           sx={{ color: theme.palette.mode === 'dark' ? 'white' : 'black' }}
         >
-          Personal Assistant
+          lyfeAI 🍃
         </Typography>
         <ChatContainer theme={theme}>
           <ChatList theme={theme}>
