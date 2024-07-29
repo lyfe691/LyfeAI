@@ -14,7 +14,7 @@ const LandingPage = () => {
         <Link to="/landing-contact" className="contact-link">Contact</Link>
       </nav>
       <div className="content-box">
-        <h1>Welcome to <span className="highlight">lyfeAI 🍃</span></h1>
+        <h1>Welcome to <span className="highlight">lyfeAI🍃</span></h1>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor,
           nunc id aliquam tincidunt, nisl nunc tincidunt nunc, vitae aliquam nunc

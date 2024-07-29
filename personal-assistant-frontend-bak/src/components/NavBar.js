@@ -1,4 +1,3 @@
-// src/components/NavBar.js
 import React, { useState, useEffect } from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -8,6 +7,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LoginIcon from '@mui/icons-material/Login';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { styled } from '@mui/system';
+import logo from '../assets/logo.png'; // Updated path for the logo
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {
@@ -46,6 +46,9 @@ const HamburgerIcon = styled(Box)(({ isOpen }) => ({
       top: isOpen ? '11px' : '22px',
       transform: isOpen ? 'rotate(-45deg)' : 'rotate(0deg)',
     },
+  },
+  '&:hover span': {
+    background: '#2ecc71', // Green color on hover
   },
 }));
 
@@ -93,11 +96,14 @@ const NavBar = ({ isAuthenticated, setIsAuthenticated }) => {
 
   return (
     <>
-      <AppBar position="static" sx={{ backgroundColor: '#2c3e50' }}>
+      <AppBar position="static" sx={{ backgroundColor: '#2c3e50', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#ecf0f1' }}>
-            lyfeAI <span style={{ color: '#2ecc71' }}>🍃</span>
-          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <img src={logo} alt="logo" style={{ height: '40px', marginRight: '10px', borderRadius: '8px' }} /> {/* Added border-radius */}
+            <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#ecf0f1' }}>
+              lyfeAI <span style={{ color: '#2ecc71' }}>🍃</span>
+            </Typography>
+          </Box>
           <IconButton
             edge="start"
             color="inherit"
@@ -133,7 +139,8 @@ const NavBar = ({ isAuthenticated, setIsAuthenticated }) => {
               className={animateItems ? 'visible' : ''}
               sx={{
                 '&:hover': {
-                  backgroundColor: 'rgba(236, 240, 241, 0.1)',
+                  backgroundColor: 'rgba(236, 240, 241, 0.2)',
+                  transform: 'translateX(5px)', // Slight movement on hover
                 },
                 transitionDelay: `${index * 0.1}s`,
               }}
