@@ -78,7 +78,8 @@
 }
 
 .landing-page .try-now-button,
-.landing-page .contact-button {
+.landing-page .contact-button,
+#submitButton {
   padding: 12px 30px;
   font-size: 1.1em;
   color: #00223e;
@@ -237,4 +238,15 @@
 .landing-page .copyright {
   animation: fadeIn 1s ease-out 0.5s forwards;
   opacity: 0;
+}
+
+textarea {
+  font-family:sans-serif;
+}
+
+.landing-page .back-link {
+	text-decoration: none;
+}
+.landing-page .back-link:hover {
+	text-decoration: none;
 }

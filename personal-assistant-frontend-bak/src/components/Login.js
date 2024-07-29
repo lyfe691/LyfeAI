@@ -21,7 +21,7 @@ const Login = ({ setIsAuthenticated }) => {
       const token = response.data;
       localStorage.setItem('token', token);
       setIsAuthenticated(true);
-      navigate('/');
+      navigate('/home');  
     } catch (error) {
       if (error.response && error.response.data) {
         setError(error.response.data);

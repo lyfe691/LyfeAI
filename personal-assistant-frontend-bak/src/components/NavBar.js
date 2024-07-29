@@ -4,19 +4,15 @@ import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 const NavBar = ({ isAuthenticated, setIsAuthenticated }) => {
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setIsAuthenticated(false);
-  };
 
   return (
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          Personal Assistant
+          lyfeAI 🍃
         </Typography>
         <Box>
-          <Button color="inherit" component={Link} to="/">
+          <Button color="inherit" component={Link} to="/home">
             Home
           </Button>
           {isAuthenticated ? (
