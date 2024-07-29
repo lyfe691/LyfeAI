@@ -25,48 +25,7 @@ LyfeAI  is your AI-powered assistant designed to make your life easier.
   - CSS
   - Styled Components
 
-## Setup and Installation
 
-### Prerequisites
-
-Ensure you have the following installed:
-
-- Node.js
-- npm
-- Java JDK
-- MySQL
-
-### Frontend
-
-1. **Navigate to the frontend directory**:
-   ```bash
-   cd personal-assistant-frontend
-   ```
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
-3. **Start the development server**:
-   ```bash
-   npm start
-   ```
-
-### Backend
-
-1. **Navigate to the backend directory**:
-   ```bash
-   cd personal-assistant-backend
-   ```
-2. **Update application properties**:
-   Configure your `src/main/resources/application.properties` with your MySQL database credentials.
-3. **Build the project**:
-   ```bash
-   mvn clean install
-   ```
-4. **Run the application**:
-   ```bash
-   mvn spring-boot:run
-   ```
 
 ## Project Structure
 
