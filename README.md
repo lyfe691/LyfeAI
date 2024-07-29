@@ -102,7 +102,7 @@ Ensure you have the following installed:
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the Proprietary License.
 
 ## Contact
 
