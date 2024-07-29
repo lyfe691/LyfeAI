@@ -10,13 +10,11 @@ import {
   ListItem,
   ListItemText,
   ThemeProvider,
-  createTheme,
   Alert,
   useTheme,
   IconButton,
 } from '@mui/material';
 import { styled, keyframes } from '@mui/system';
-import SendIcon from '@mui/icons-material/Send';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import { CSSTransition } from 'react-transition-group';
 import './Chat.css';
@@ -66,21 +64,29 @@ const fadeIn = keyframes`
   to { opacity: 1; transform: translateY(0); }
 `;
 
+const typingAnimation = keyframes`
+  0% { content: ''; }
+  33% { content: '.'; }
+  66% { content: '..'; }
+  100% { content: '...'; }
+`;
+
 const MessageBubble = styled(ListItemText)(({ theme, align }) => ({
   '& .MuiTypography-root': {
     display: 'inline-block',
     padding: theme.spacing(1, 2),
     borderRadius: align === 'right' ? '20px 20px 0 20px' : '20px 20px 20px 0',
-    backgroundColor: align === 'right'
-      ? theme.palette.primary.main
+    background: align === 'right'
+      ? `linear-gradient(135deg, ${theme.palette.primary.light}, ${theme.palette.primary.main})`
       : theme.palette.mode === 'dark'
-        ? theme.palette.secondary.main
-        : theme.palette.grey[300],
+        ? `linear-gradient(135deg, ${theme.palette.secondary.light}, ${theme.palette.secondary.main})`
+        : `linear-gradient(135deg, ${theme.palette.grey[300]}, ${theme.palette.grey[400]})`,
     color: align === 'right'
       ? theme.palette.primary.contrastText
       : theme.palette.mode === 'dark'
         ? theme.palette.secondary.contrastText
         : theme.palette.text.primary,
+    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
     maxWidth: '70%',
     animation: `${fadeIn} 0.3s ease-out`,
   },
@@ -95,6 +101,18 @@ const InputContainer = styled(Box)(({ theme }) => ({
   borderRadius: '0 0 20px 20px',
 }));
 
+const StyledTextField = styled(TextField)(({ theme }) => ({
+  '& .MuiOutlinedInput-root': {
+    borderRadius: '25px',
+    '&.Mui-focused fieldset': {
+      borderColor: theme.palette.primary.main,
+    },
+  },
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1.5),
+  },
+}));
+
 const RoundIconButton = styled(IconButton)(({ theme }) => ({
   borderRadius: '50%',
   width: '48px',
@@ -106,10 +124,21 @@ const RoundIconButton = styled(IconButton)(({ theme }) => ({
   },
 }));
 
+const TypingIndicator = styled(Box)(({ theme }) => ({
+  display: 'inline-block',
+  fontSize: '1rem',
+  marginLeft: theme.spacing(2),
+  '&::after': {
+    content: '"..."',
+    animation: `${typingAnimation} 1.5s steps(3, end) infinite`,
+  },
+}));
+
 function Chat() {
   const [message, setMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
   const [error, setError] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
   const chatEndRef = useRef(null);
   const theme = useTheme();
 
@@ -127,6 +156,7 @@ function Chat() {
       return;
     }
     const token = localStorage.getItem('token');
+    setIsTyping(true);
     try {
       const result = await axios.post(
         'http://localhost:8080/chat',
@@ -143,6 +173,7 @@ function Chat() {
       console.error('Error sending message:', error);
       setChatHistory([...chatHistory, { user: message, bot: 'Failed to get response' }]);
     }
+    setIsTyping(false);
   };
 
   return (
@@ -183,6 +214,11 @@ function Chat() {
                 </React.Fragment>
               ))
             )}
+            {isTyping && (
+              <ListItem>
+                <MessageBubble primary={<TypingIndicator />} align="left" />
+              </ListItem>
+            )}
             <div ref={chatEndRef} />
           </ChatList>
           <CSSTransition
@@ -196,13 +232,13 @@ function Chat() {
             </Box>
           </CSSTransition>
           <InputContainer component="form" onSubmit={handleSubmit}>
-            <TextField
+            <StyledTextField
               variant="outlined"
               fullWidth
               placeholder="Type your message..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              sx={{ mr: 1, '& .MuiOutlinedInput-root': { borderRadius: '25px' } }}
+              sx={{ mr: 1 }}
             />
             <RoundIconButton type="submit" color="primary">
               <ArrowUpwardIcon />
