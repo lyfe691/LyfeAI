@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Box, Tooltip } from '@mui/material';
+import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Box, Tooltip, Avatar } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -14,7 +14,7 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
     width: '250px',
     background: '#2c3e50',
     color: '#ecf0f1',
-    transition: 'transform 0.3s ease-in-out',
+    transition: 'background 0.3s ease-in-out',
   },
 }));
 
@@ -63,9 +63,15 @@ const StyledListItem = styled(ListItem)(({ theme }) => ({
   '&.active': {
     backgroundColor: 'rgba(46, 204, 113, 0.2)',
   },
+  '& .MuiListItemIcon-root': {
+    transition: 'color 0.3s ease-in-out',
+  },
+  '&:hover .MuiListItemIcon-root': {
+    color: '#2ecc71', // Green color on hover
+  },
 }));
 
-const NavBar = ({ isAuthenticated, setIsAuthenticated }) => {
+const NavBar = ({ isAuthenticated, setIsAuthenticated, user }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [animateItems, setAnimateItems] = useState(false);
   const location = useLocation();
@@ -100,11 +106,11 @@ const NavBar = ({ isAuthenticated, setIsAuthenticated }) => {
 
   return (
     <>
-      <AppBar position="static" sx={{ backgroundColor: '#2c3e50', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
+      <AppBar position="static" sx={{ backgroundColor: '#2c3e50', boxShadow: '0 4px 8px rgba(0,0,0,0.1)', transition: 'background 0.3s ease-in-out' }}>
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <img src={logo} alt="logo" style={{ height: '40px', marginRight: '10px', borderRadius: '8px' }} /> {/* Added border-radius */}
-            <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#ecf0f1' }}>
+            <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#ecf0f1', fontFamily: 'Roboto, sans-serif' }}>
               lyfeAI <span style={{ color: '#2ecc71' }}>🍃</span>
             </Typography>
           </Box>
@@ -132,10 +138,18 @@ const NavBar = ({ isAuthenticated, setIsAuthenticated }) => {
           keepMounted: true,
         }}
       >
-        <Box sx={{ padding: '10px' }}>
+        <Box sx={{ padding: '10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Typography variant="h6" sx={{ color: '#ecf0f1' }}>
             Menu
           </Typography>
+          {isAuthenticated && user && (
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Avatar src={user.avatar} alt={user.name} sx={{ marginRight: '10px' }} />
+              <Typography variant="body1" sx={{ color: '#ecf0f1' }}>
+                {user.name}
+              </Typography>
+            </Box>
+          )}
         </Box>
         <List>
           {menuItems.map((item, index) => (
