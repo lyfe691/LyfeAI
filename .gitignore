@@ -1,7 +1,4 @@
 # Ignore application.properties file
-src/main/resources/application.properties
+personal-assistant-bak/src/main/resources/application.properties
 
-# Other
-node_modules/
-target/
-.DS_Store
+
