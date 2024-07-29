@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Box } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Box, Tooltip } from '@mui/material';
+import { Link, useLocation } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import ChatIcon from '@mui/icons-material/Chat';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -52,7 +52,7 @@ const HamburgerIcon = styled(Box)(({ isOpen }) => ({
   },
 }));
 
-const StyledListItem = styled(ListItem)({
+const StyledListItem = styled(ListItem)(({ theme }) => ({
   opacity: 0,
   transform: 'translateX(50px)',
   transition: 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out',
@@ -60,11 +60,15 @@ const StyledListItem = styled(ListItem)({
     opacity: 1,
     transform: 'translateX(0)',
   },
-});
+  '&.active': {
+    backgroundColor: 'rgba(46, 204, 113, 0.2)',
+  },
+}));
 
 const NavBar = ({ isAuthenticated, setIsAuthenticated }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [animateItems, setAnimateItems] = useState(false);
+  const location = useLocation();
 
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
@@ -128,26 +132,32 @@ const NavBar = ({ isAuthenticated, setIsAuthenticated }) => {
           keepMounted: true,
         }}
       >
+        <Box sx={{ padding: '10px' }}>
+          <Typography variant="h6" sx={{ color: '#ecf0f1' }}>
+            Menu
+          </Typography>
+        </Box>
         <List>
           {menuItems.map((item, index) => (
-            <StyledListItem
-              button
-              key={item.text}
-              component={Link}
-              to={item.link}
-              onClick={toggleDrawer}
-              className={animateItems ? 'visible' : ''}
-              sx={{
-                '&:hover': {
-                  backgroundColor: 'rgba(236, 240, 241, 0.2)',
-                  transform: 'translateX(5px)', // Slight movement on hover
-                },
-                transitionDelay: `${index * 0.1}s`,
-              }}
-            >
-              <ListItemIcon sx={{ color: '#ecf0f1' }}>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </StyledListItem>
+            <Tooltip key={item.text} title={item.text} placement="left">
+              <StyledListItem
+                button
+                component={Link}
+                to={item.link}
+                onClick={toggleDrawer}
+                className={`${animateItems ? 'visible' : ''} ${location.pathname === item.link ? 'active' : ''}`}
+                sx={{
+                  '&:hover': {
+                    backgroundColor: 'rgba(236, 240, 241, 0.2)',
+                    transform: 'translateX(5px)', // Slight movement on hover
+                  },
+                  transitionDelay: `${index * 0.1}s`,
+                }}
+              >
+                <ListItemIcon sx={{ color: '#ecf0f1' }}>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.text} />
+              </StyledListItem>
+            </Tooltip>
           ))}
         </List>
       </StyledDrawer>
