@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Box, Tooltip, Avatar } from '@mui/material';
+import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, Box, Tooltip, Avatar, useMediaQuery, useTheme } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -75,6 +75,8 @@ const NavBar = ({ isAuthenticated, setIsAuthenticated, user }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [animateItems, setAnimateItems] = useState(false);
   const location = useLocation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
@@ -107,15 +109,18 @@ const NavBar = ({ isAuthenticated, setIsAuthenticated, user }) => {
   return (
     <>
       <AppBar position="static" sx={{ backgroundColor: '#2c3e50', boxShadow: '0 4px 8px rgba(0,0,0,0.1)', transition: 'background 0.3s ease-in-out' }}>
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <img src={logo} alt="logo" style={{ height: '40px', marginRight: '10px', borderRadius: '8px' }} /> {/* Added border-radius */}
-            <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#ecf0f1', fontFamily: 'Roboto, sans-serif' }}>
-              lyfeAI <span style={{ color: '#2ecc71' }}>🍃</span>
-            </Typography>
+            {!isMobile && (
+              <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#ecf0f1', fontFamily: 'Roboto, sans-serif' }}>
+                lyfeAI <span style={{ color: '#2ecc71' }}>🍃</span>
+              </Typography>
+            )}
           </Box>
+          <Box sx={{ flexGrow: 1 }} /> {/* Spacer */}
           <IconButton
-            edge="start"
+            edge="end"
             color="inherit"
             aria-label="menu"
             onClick={toggleDrawer}

@@ -1,4 +1,3 @@
-// src/components/Chat.js
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import {
@@ -92,6 +91,8 @@ const InputContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
   backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
   backdropFilter: 'blur(5px)',
+  borderTop: `1px solid ${theme.palette.divider}`,
+  borderRadius: '0 0 20px 20px',
 }));
 
 const RoundIconButton = styled(IconButton)(({ theme }) => ({
@@ -156,8 +157,8 @@ function Chat() {
         >
           lyfeAI 🍃
         </Typography>
-        <ChatContainer theme={theme}>
-          <ChatList theme={theme}>
+        <ChatContainer>
+          <ChatList>
             {chatHistory.length === 0 ? (
               <Typography
                 variant="h6"
@@ -174,10 +175,10 @@ function Chat() {
               chatHistory.map((chat, index) => (
                 <React.Fragment key={index}>
                   <ListItem sx={{ justifyContent: 'flex-end' }}>
-                    <MessageBubble primary={chat.user} align="right" theme={theme} />
+                    <MessageBubble primary={chat.user} align="right" />
                   </ListItem>
                   <ListItem>
-                    <MessageBubble primary={chat.bot} align="left" theme={theme} />
+                    <MessageBubble primary={chat.bot} align="left" />
                   </ListItem>
                 </React.Fragment>
               ))
@@ -194,14 +195,14 @@ function Chat() {
               <Alert severity="error" sx={{ fontSize: '0.875rem' }}>{error}</Alert>
             </Box>
           </CSSTransition>
-          <InputContainer component="form" onSubmit={handleSubmit} theme={theme}>
+          <InputContainer component="form" onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
               fullWidth
               placeholder="Type your message..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              sx={{ mr: 1 }}
+              sx={{ mr: 1, '& .MuiOutlinedInput-root': { borderRadius: '25px' } }}
             />
             <RoundIconButton type="submit" color="primary">
               <ArrowUpwardIcon />
