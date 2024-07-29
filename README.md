@@ -94,9 +94,11 @@ Ensure you have the following installed:
 
 ## Screenshots
 
-- Welcome Page
-- Chat
-- Settings
+### Welcome Page
+  ![Welcome](images/WelcomePage.png)
+### Chat
+  ![Chat](images/Chat.png)
+
 
 ## Contributing
 
