@@ -65,4 +65,4 @@ This project is licensed under the Proprietary License.
 
 ## Contact
 
-For any inquiries, please reach out to me at support@lyfeai.tech.
+For any inquiries, please reach out to me <a href = "https://yanissebastianzuercher.ch">here</a>.
