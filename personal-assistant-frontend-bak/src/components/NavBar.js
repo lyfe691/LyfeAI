@@ -23,6 +23,7 @@ const HamburgerIcon = styled(Box)(({ isOpen }) => ({
   height: '25px',
   position: 'relative',
   cursor: 'pointer',
+  zIndex: 1301, // Ensure it stays above other elements when drawer is open
   '& span': {
     display: 'block',
     position: 'absolute',
@@ -102,6 +103,7 @@ const NavBar = ({ isAuthenticated, setIsAuthenticated }) => {
             color="inherit"
             aria-label="menu"
             onClick={toggleDrawer}
+            sx={{ zIndex: 1301 }} // Ensure it's above the drawer
           >
             <HamburgerIcon isOpen={isOpen}>
               <span></span>
