@@ -11,6 +11,7 @@ LyfeAI is your AI-powered assistant designed to make your life easier.
 - **AI Chat**: Interact with an AI-powered chatbot using the OpenAI API.
 - **Dark Mode**: Toggle between dark and light themes.
 - **Profile Management**: Update your profile and change your password.
+- **Reset Password**: Reset your password with your email and receive a reset token.
 
 ---
 
