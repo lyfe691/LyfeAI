@@ -30,7 +30,6 @@ LyfeAI is your AI-powered assistant designed to make your life easier.
 
 ### Styling
 - **CSS**
-- **Styled Components**
 
 ---
 
