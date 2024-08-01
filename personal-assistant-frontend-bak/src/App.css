@@ -37,7 +37,6 @@ button:hover {
   padding: 20px;
 }
 
-
 /* Responsive design with media queries */
 @media (max-width: 768px) {
   .container {
@@ -48,5 +47,9 @@ button:hover {
   input, button {
     width: 100%;
     margin-bottom: 10px;
+  }
+
+  .MuiTypography-h5 {
+    display: none; /* Hide the lyfeAI shi on small screens */
   }
 }

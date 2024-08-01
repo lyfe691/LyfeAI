@@ -12,7 +12,7 @@ import logo from '../assets/logo.png';
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {
     width: '280px',
-    background: '#34495e',
+    background: '#1c1c1c', // Darker blackish background
     color: '#ecf0f1',
     transition: 'background 0.3s ease-in-out, transform 0.3s ease-in-out',
     boxShadow: '0 4px 10px rgba(0, 0, 0, 0.5)',
@@ -114,7 +114,7 @@ const NavBar = ({ isAuthenticated, setIsAuthenticated, user }) => {
 
   return (
     <>
-      <AppBar position="static" sx={{ backgroundColor: '#34495e', boxShadow: '0 4px 8px rgba(0,0,0,0.3)', transition: 'background 0.3s ease-in-out' }}>
+      <AppBar position="static" sx={{ backgroundColor: '#1c1c1c', boxShadow: '0 4px 8px rgba(0,0,0,0.3)', transition: 'background 0.3s ease-in-out' }}>
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <img src={logo} alt="logo" style={{ height: '40px', marginRight: '10px', borderRadius: '8px' }} />
